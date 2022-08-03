@@ -27,6 +27,7 @@ public class User {
 
     @NonNull
     private String email;
+
     @OneToMany
     private List<Goal>goals;
 
