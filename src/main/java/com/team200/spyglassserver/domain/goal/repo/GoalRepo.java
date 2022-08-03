@@ -1,4 +1,19 @@
 package com.team200.spyglassserver.domain.goal.repo;
 
-public class GoalRepo {
+import com.team200.spyglassserver.domain.goal.model.Goal;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Date;
+import java.util.List;
+
+public interface GoalRepo extends JpaRepository<Goal,Long> {
+    Goal findByTitle(String title);
+
+    List<Goal> findByTargetDate(Date date);
+
+    List<Goal> findByGoalDate(Date date);
+
+    List<Goal> findByStatus(Status status);
+
+    
 }
