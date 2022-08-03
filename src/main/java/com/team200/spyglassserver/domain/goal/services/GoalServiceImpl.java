@@ -2,6 +2,7 @@ package com.team200.spyglassserver.domain.goal.services;
 
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
+import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
 import com.team200.spyglassserver.domain.user.services.UserService;

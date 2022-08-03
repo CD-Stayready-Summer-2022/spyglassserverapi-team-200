@@ -1,5 +1,6 @@
 package com.team200.spyglassserver.domain.goal.repo;
 
+import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
