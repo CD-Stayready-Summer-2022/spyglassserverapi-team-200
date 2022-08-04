@@ -1,15 +1,16 @@
 package com.team200.spyglassserver.domain.goal.services;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
+import com.team200.spyglassserver.domain.core.exceptions.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
-import com.team200.spyglassserver.domain.goal.services.GoalService;
+import com.team200.spyglassserver.domain.user.model.User;
 import com.team200.spyglassserver.domain.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,8 @@ public class GoalServiceImpl implements GoalService {
         return goalRepo.save(goal);
     }
 
+
+
     @Override
     public Goal update(Long id, Goal goal) throws ResourceNotFoundException {
         return null;
@@ -47,9 +50,15 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal getAll(Long id) throws ResourceNotFoundException {
-        return null;
+    public List<Goal> getAll(String id) throws ResourceNotFoundException {
+        User user = userService.retrieveById(id);
+        List<Goal> goals = goalRepo.findByOwner(user);
+        if(goals.size() == 0) {
+            throw new ResourceNotFoundException(String.format("User with id %d has no goals",id));
+        }
+        return goals;
     }
+
 
     @Override
     public Goal getAllByTargetDate(Date date) throws ResourceNotFoundException {
@@ -62,7 +71,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal getAllByStatus(Status status) throws ResourceNotFoundException {
+    public Goal getAllByStatus(CompletionStatus status) throws ResourceNotFoundException {
         return null;
     }
 

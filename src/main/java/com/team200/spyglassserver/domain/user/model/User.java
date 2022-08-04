@@ -32,4 +32,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Goal>goals;
 
+    public User(@NonNull String firstName, @NonNull String lastName, @NonNull String email, List<Goal> goals) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.goals = goals;
+    }
 }
