@@ -13,5 +13,6 @@ public interface UserService {
     UserDTO update(String id, User userDetail) throws ResourceNotFoundException;
     void delete(String id);
     Iterable<UserDTO> getGoals(String id) throws ResourceNotFoundException;
+    User retrieveById(String id) throws ResourceNotFoundException;
 
 }

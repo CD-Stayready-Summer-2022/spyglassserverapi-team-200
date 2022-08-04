@@ -3,10 +3,7 @@ package com.team200.spyglassserver.domain.user.model;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @ToString
-
+@Table(name = "users")
 public class User {
     @Id
     private String id;
@@ -32,4 +29,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Goal>goals;
 
+    public User(@NonNull String firstName, @NonNull String lastName, @NonNull String email, List<Goal> goals) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.goals = goals;
+    }
 }
