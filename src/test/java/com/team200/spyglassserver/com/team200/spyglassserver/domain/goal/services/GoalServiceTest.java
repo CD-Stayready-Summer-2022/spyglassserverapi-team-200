@@ -1,12 +1,12 @@
 package com.team200.spyglassserver.com.team200.spyglassserver.domain.goal.services;
 
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
-import com.team200.spyglassserver.domain.core.exceptions.enums.CompletionStatus;
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
 import com.team200.spyglassserver.domain.user.model.User;
-import com.team200.spyglassserver.domain.user.repo.UserRepo;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

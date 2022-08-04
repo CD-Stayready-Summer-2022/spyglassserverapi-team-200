@@ -1,11 +1,14 @@
 package com.team200.spyglassserver.domain.goal.services;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.core.exceptions.enums.CompletionStatus;
+
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
+
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
 import com.team200.spyglassserver.domain.user.model.User;
 import com.team200.spyglassserver.domain.user.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,6 @@ import java.util.Optional;
 public class GoalServiceImpl implements GoalService {
     private GoalRepo goalRepo;
     private UserService userService;
-
 
     @Autowired
     public GoalServiceImpl(GoalRepo goalRepo, UserService userService) {
@@ -71,9 +73,10 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal getAllByStatus(CompletionStatus status) throws ResourceNotFoundException {
+    public List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException {
         return null;
     }
+
 
     @Override
     public Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException {
@@ -84,5 +87,20 @@ public class GoalServiceImpl implements GoalService {
     public Boolean delete(Long id) throws ResourceNotFoundException {
         return null;
     }
-
+    
+    @Override
+    public CompletionStatus getStatusEnum(String status){
+        CompletionStatus returnStatus = null;
+        switch (status){
+            case "Not Started":
+                returnStatus =  CompletionStatus.NOT_STARTED;
+                break;
+            case "In Progress":
+                returnStatus = CompletionStatus.IN_PROGRESS;
+                break;
+            case "Complete":
+                returnStatus = CompletionStatus.COMPLETE;
+        }
+        return returnStatus;
+    }
 }

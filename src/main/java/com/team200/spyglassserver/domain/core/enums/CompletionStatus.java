@@ -1,4 +1,4 @@
-package com.team200.spyglassserver.domain.core.exceptions.enums;
+package com.team200.spyglassserver.domain.core.enums;
 
 public enum CompletionStatus {
     COMPLETE("Complete"),
