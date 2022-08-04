@@ -1,6 +1,7 @@
 package com.team200.spyglassserver.domain.goal.model;
 
-import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
+
 import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
 
@@ -16,7 +17,7 @@ import java.util.Date;
 @Entity
 public class Goal {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
     private String title;
@@ -32,7 +33,7 @@ public class Goal {
     @NonNull
     private Double currentAmount;
     @NonNull
-    private Status status;
+    private CompletionStatus status;
     @NonNull
     @ManyToOne
     private User owner;
@@ -40,5 +41,12 @@ public class Goal {
     @PrePersist
     protected void onCreate() {
         goalStart = new Date();
+    }
+
+    public Goal(@NonNull String title, String description, @NonNull Date targetDate, @NonNull Double targetAmount) {
+        this.title = title;
+        this.description = description;
+        this.targetDate = targetDate;
+        this.targetAmount = targetAmount;
     }
 }

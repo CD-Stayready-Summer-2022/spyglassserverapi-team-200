@@ -1,5 +1,7 @@
 package com.team200.spyglassserver.domain.user.controller;
 
+import com.team200.spyglassserver.domain.user.dtos.UserCreateRequest;
+import com.team200.spyglassserver.domain.user.dtos.UserDTO;
 import com.team200.spyglassserver.domain.user.model.User;
 import com.team200.spyglassserver.domain.user.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,23 +21,23 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping
-    public ResponseEntity<UserDTO> create(@RequestBody UseruCreateRequest user){
+    public ResponseEntity<UserDTO> create(@RequestBody UserCreateRequest user){
         UserDTO userDTO = userService.create(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
     @GetMapping("{id}")
-    public ResponseEntity<User>getById(@PathVariable("id")Long id){
-        UserDTO user= userService.getById(id);
+    public ResponseEntity<UserDTO>getById(@PathVariable("id")Long id){
+        UserDTO user= userService.getById(String.valueOf(id));
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
     @GetMapping("lookup")
-    public ResponseEntity<User>getByEmail(@RequestParam String email){
+    public ResponseEntity<UserDTO>getByEmail(@RequestParam String email){
         UserDTO user  = userService.getByEmail(email);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
     @DeleteMapping("{id}")
-    public ResponseEntity<User(@PathVariable("id")Long id){
-        userService.delete(id);
+    public ResponseEntity delete (@PathVariable ("id") Long id){
+        userService.delete(String.valueOf(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }

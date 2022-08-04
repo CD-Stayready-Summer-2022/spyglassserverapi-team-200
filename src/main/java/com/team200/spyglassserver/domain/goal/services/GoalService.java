@@ -1,11 +1,14 @@
 package com.team200.spyglassserver.domain.goal.services;
 
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
+
 import com.team200.spyglassserver.domain.goal.model.Goal;
+import org.apache.catalina.User;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface GoalService {
@@ -22,12 +25,16 @@ public interface GoalService {
     Goal getAll(Long id) throws ResourceNotFoundException;
 
     Goal getAllByTargetDate(Date date) throws ResourceNotFoundException;
-    Goal getAllByGoalDate(Long id) throws ResourceNotFoundException;
 
-    Goal getAllByStatus(Status status) throws ResourceNotFoundException;
+
+    List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException;
     Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException;
 
 
-    void delete(Long id) throws ResourceNotFoundException;
+
+     boolean delete(Long id) throws ResourceNotFoundException;
+
+    CompletionStatus getStatusEnum(String status);
+
 
 }
