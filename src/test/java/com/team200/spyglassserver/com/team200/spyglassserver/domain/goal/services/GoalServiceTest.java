@@ -24,6 +24,7 @@ import java.util.Date;
 public class GoalServiceTest {
     @MockBean
     private GoalRepo goalRepo;
+
     @Autowired
     private GoalService goalService;
 
@@ -43,7 +44,7 @@ public class GoalServiceTest {
     public void create() {
         BDDMockito.doReturn(mockGoal).when(goalRepo).save(mockGoal);
         Goal createdGoal = goalService.create(mockGoal);
-
+        Assertions.assertEquals(createdGoal.getId(),mockGoal.getId());
     }
 
 

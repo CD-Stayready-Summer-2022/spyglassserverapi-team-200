@@ -1,9 +1,10 @@
 package com.team200.spyglassserver.security.firebase.config;
 
 
-import com.codedifferently.watertrackerapi.security.firebase.filters.SecurityFilter;
-import com.codedifferently.watertrackerapi.security.firebase.models.SecurityProperties;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team200.spyglassserver.security.firebase.filters.SecurityFilter;
+import com.team200.spyglassserver.security.firebase.models.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

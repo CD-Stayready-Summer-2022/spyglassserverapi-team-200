@@ -3,6 +3,7 @@ package com.team200.spyglassserver.domain.user.model;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,7 +29,7 @@ public class User {
     @NonNull
     private String email;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Goal>goals;
 
 }

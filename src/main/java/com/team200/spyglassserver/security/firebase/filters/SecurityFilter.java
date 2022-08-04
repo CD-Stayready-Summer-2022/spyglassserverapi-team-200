@@ -1,15 +1,16 @@
 package com.team200.spyglassserver.security.firebase.filters;
 
 
-import com.codedifferently.watertrackerapi.security.firebase.enums.CredentialType;
-import com.codedifferently.watertrackerapi.security.firebase.models.Credentials;
-import com.codedifferently.watertrackerapi.security.firebase.models.FireBaseUser;
-import com.codedifferently.watertrackerapi.security.firebase.models.SecurityProperties;
-import com.codedifferently.watertrackerapi.security.firebase.utils.CookieUtils;
-import com.codedifferently.watertrackerapi.security.firebase.utils.SecurityService;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import com.team200.spyglassserver.security.firebase.enums.CredentialType;
+import com.team200.spyglassserver.security.firebase.models.Credentials;
+import com.team200.spyglassserver.security.firebase.models.FireBaseUser;
+import com.team200.spyglassserver.security.firebase.models.SecurityProperties;
+import com.team200.spyglassserver.security.firebase.utils.CookieUtils;
+import com.team200.spyglassserver.security.firebase.utils.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
