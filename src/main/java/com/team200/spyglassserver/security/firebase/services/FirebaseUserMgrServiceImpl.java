@@ -27,7 +27,7 @@ public class FirebaseUserMgrServiceImpl implements FirebaseUserMgrService{
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             return userRecord.getUid();
         } catch (FirebaseAuthException e){
-            throw new ResourceCreationException(e.getMessage());
+            throw new ResourceCreationException();
         }
     }
 
@@ -40,7 +40,7 @@ public class FirebaseUserMgrServiceImpl implements FirebaseUserMgrService{
                     .setDisplayName(displayName);
             FirebaseAuth.getInstance().updateUser(request);
         }catch (FirebaseAuthException e){
-            throw new ResourceUpdateException(e.getMessage());
+            throw new ResourceUpdateException("");
         }
     }
 
@@ -49,7 +49,7 @@ public class FirebaseUserMgrServiceImpl implements FirebaseUserMgrService{
         try {
             FirebaseAuth.getInstance().deleteUser(id);
         }catch (FirebaseAuthException e){
-            throw new ResourceUpdateException(e.getMessage());
+            throw new ResourceUpdateException("");
         }
     }
 }
