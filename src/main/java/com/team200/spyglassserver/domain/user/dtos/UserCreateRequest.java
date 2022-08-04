@@ -1,14 +1,12 @@
 package com.team200.spyglassserver.domain.user.dtos;
 
 import lombok.*;
-
-public class UserProfileCreateRequest {
     @Getter
     @Setter
     @NoArgsConstructor
     @RequiredArgsConstructor
     @ToString
-    public class UserProfileDTO {
+    public class UserCreateRequest {
         @NonNull
         private String firstName;
 
@@ -21,4 +19,3 @@ public class UserProfileCreateRequest {
         @NonNull
         private String password;
     }
-}
