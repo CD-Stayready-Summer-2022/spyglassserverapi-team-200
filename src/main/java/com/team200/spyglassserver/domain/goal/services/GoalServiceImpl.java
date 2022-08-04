@@ -3,6 +3,7 @@ import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 
+
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
 import com.team200.spyglassserver.domain.user.dtos.UserDTO;
@@ -88,19 +89,27 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException {
-
-        UserDTO owner = userService.getById(id);
-        Optional<List<Goal>> optional = goalRepo.findByOwnerAndStatus(owner, getStatusEnum(statusString));
-        if(optional.isEmpty())
-            throw new ResourceNotFoundException("User has no goals of this status");
-        return optional.get();
-
+        User owner = userService.retrieveById(id);
+        List<Goal> goals = goalRepo.findByOwner(owner)
+               .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
+        goals.forEach( goal -> {
+            if(!goal.getCompletionStatus().getValue().equals(statusString))
+                goals.remove(goal);
+        });
+        return goals;
     }
 
 
     @Override
-    public Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException {
-        return null;
+    public List<Goal> getByTargetAmount(String id, Double start, Double end) throws ResourceNotFoundException {
+        User owner = userService.retrieveById(id);
+        List<Goal> goals = goalRepo.findByOwner(owner)
+                .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
+        goals.forEach(goal -> {
+            if(!(goal.getTargetAmount() >= start && goal.getTargetAmount()<= end))
+                goals.remove(goal);
+        });
+        return goals;
     }
 
     @Override
@@ -117,7 +126,6 @@ public class GoalServiceImpl implements GoalService {
     
     @Override
     public CompletionStatus getStatusEnum(String status){
-
         CompletionStatus returnStatus = null;
         switch (status){
             case "Not Started":

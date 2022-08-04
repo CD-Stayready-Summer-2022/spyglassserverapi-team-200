@@ -1,6 +1,5 @@
 package com.team200.spyglassserver.domain.goal.model;
 import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
-
 import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
 
@@ -34,7 +33,6 @@ public class Goal {
     private Double currentAmount;
     @NonNull
     private CompletionStatus completionStatus;
-
     @NonNull
     @ManyToOne
     private User owner;

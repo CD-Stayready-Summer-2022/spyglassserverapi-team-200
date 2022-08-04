@@ -1,5 +1,6 @@
 package com.team200.spyglassserver.domain.goal.repo;
 
+
 import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 
 import com.team200.spyglassserver.domain.goal.model.Goal;
@@ -27,7 +28,5 @@ public interface GoalRepo extends JpaRepository<Goal, Long> {
     List<Goal>findByStatus(CompletionStatus status);
 
     List<Goal> findByOwner(User user);
-
-
 
 }
