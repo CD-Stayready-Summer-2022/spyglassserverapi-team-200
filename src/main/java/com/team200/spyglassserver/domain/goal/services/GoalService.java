@@ -8,14 +8,13 @@ import org.apache.catalina.User;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface GoalService {
 
     Goal create(Goal goal) throws ResourceCreationException;
 
-    Goal update(Long id, Goal goal) throws ResourceNotFoundException;
-
-    Goal getById(Long id) throws ResourceNotFoundException;
+    Optional getById(Long id) throws ResourceNotFoundException;
 
     Goal getAll(Long id) throws ResourceNotFoundException;
 
@@ -24,6 +23,7 @@ public interface GoalService {
 
     List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException;
     Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException;
+    Goal update(Long id, Goal detail) throws ResourceNotFoundException;
 
     Boolean delete(Long id) throws ResourceNotFoundException;
     Status getStatusEnum(String status);
