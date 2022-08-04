@@ -1,15 +1,12 @@
-package com.team200.spyglassserver.domain.goal.services;
-
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.core.exceptions.enums.Status;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
+import com.team200.spyglassserver.domain.goal.services.GoalService;
 import com.team200.spyglassserver.domain.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -38,9 +35,12 @@ public class GoalServiceImpl implements GoalService {
         return null;
     }
 
-    @Override
-    public Goal getById(Long id) throws ResourceNotFoundException {
-        return null;
+    public Optional getById(Long id) throws ResourceNotFoundException {
+        Optional goal = goalRepo.findById(id);
+        if(goal.isEmpty()){
+            throw new ResourceNotFoundException("this goal doesn' exist by that id");
+        }
+        return goal;
     }
 
     @Override
@@ -72,4 +72,5 @@ public class GoalServiceImpl implements GoalService {
     public Boolean delete(Long id) throws ResourceNotFoundException {
         return null;
     }
+
 }

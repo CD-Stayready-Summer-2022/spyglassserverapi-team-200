@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GoalRepo extends JpaRepository<Goal, Long> {
+    Optional<Goal>findById(Long id);
     Optional<Goal> findByTitle(String title);
 
     List<Goal> findByTargetDate(Date date);
