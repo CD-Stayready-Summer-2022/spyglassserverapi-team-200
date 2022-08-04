@@ -1,6 +1,5 @@
 package com.team200.spyglassserver.domain.goal.repo;
 
-import com.team200.spyglassserver.domain.core.enums.Status;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +14,5 @@ public interface GoalRepo extends JpaRepository<Goal, Long> {
 
     List<Goal> findByTargetDate(Date date);
 
-    List<Goal> findByGoalDate(Date date);
-
-    Optional<List<Goal>>findByOwnerAndStatus(User owner, Status status);
-    List<Goal>findByTargetAmount(Double targetAmount);
+    Optional<List<Goal>> findByOwner(User owner);
 }

@@ -1,12 +1,11 @@
 package com.team200.spyglassserver.domain.goal.services;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.core.enums.Status;
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
-import com.team200.spyglassserver.domain.goal.services.GoalService;
+import com.team200.spyglassserver.domain.user.model.User;
 import com.team200.spyglassserver.domain.user.services.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,16 +63,26 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException {
-        User owner = userService.getById(id);
-        Optional<List<Goal>> optional = goalRepo.findByOwnerAndStatus(owner, getStatusEnum(statusString));
-        if(optional.isEmpty())
-            throw new ResourceNotFoundException("User has no goals of this status");
-        return optional.get();
+        User owner = userService.retrieveById(id);
+        List<Goal> goals = goalRepo.findByOwner(owner)
+               .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
+        goals.forEach( goal -> {
+            if(!goal.getCompletionStatus().getValue().equals(statusString))
+                goals.remove(goal);
+        });
+        return goals;
     }
 
     @Override
-    public Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException {
-        return null;
+    public List<Goal> getByTargetAmount(String id, Double start, Double end) throws ResourceNotFoundException {
+        User owner = userService.retrieveById(id);
+        List<Goal> goals = goalRepo.findByOwner(owner)
+                .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
+        goals.forEach(goal -> {
+            if(!(goal.getTargetAmount() >= start && goal.getTargetAmount()<= end))
+                goals.remove(goal);
+        });
+        return goals;
     }
 
     @Override
@@ -82,17 +91,17 @@ public class GoalServiceImpl implements GoalService {
     }
     
     @Override
-    public Status getStatusEnum(String status){
-        Status returnStatus = null;
+    public CompletionStatus getStatusEnum(String status){
+        CompletionStatus returnStatus = null;
         switch (status){
             case "Not Started":
-                returnStatus =  Status.NOT_STARTED;
+                returnStatus =  CompletionStatus.NOT_STARTED;
                 break;
             case "In Progress":
-                returnStatus = Status.IN_PROGRESS;
+                returnStatus = CompletionStatus.IN_PROGRESS;
                 break;
             case "Complete":
-                returnStatus = Status.COMPLETE;
+                returnStatus = CompletionStatus.COMPLETE;
         }
         return returnStatus;
     }
