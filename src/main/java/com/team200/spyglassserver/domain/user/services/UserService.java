@@ -7,6 +7,8 @@ import com.team200.spyglassserver.domain.user.dtos.UserDTO;
 import com.team200.spyglassserver.domain.user.model.User;
 
 public interface UserService {
+    User retrieveById(String id) throws ResourceNotFoundException;
+
     UserDTO create(UserCreateRequest detailDTO) throws ResourceNotFoundException;
     Iterable<UserDTO> getAll();
     UserDTO getById(String id) throws ResourceNotFoundException;

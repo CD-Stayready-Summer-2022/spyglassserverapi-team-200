@@ -1,12 +1,12 @@
 package com.team200.spyglassserver.domain.core.enums;
 
-public enum Status {
+public enum CompletionStatus {
     COMPLETE("Complete"),
     IN_PROGRESS("In Progress"),
     NOT_STARTED("Not Started");
 
     private String value;
-    Status(String value) {
+    CompletionStatus(String value) {
         this.value = value;
     }
     public String getValue() {

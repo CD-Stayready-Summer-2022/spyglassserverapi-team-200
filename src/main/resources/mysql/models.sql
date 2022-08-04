@@ -13,8 +13,11 @@ CREATE TABLE  IF NOT EXISTS`users`(
 create table `goals`(
 	`id` Integer Primary Key auto_increment,
     `title` varchar(50),
-    `last_name` varchar(50),
-    `email` varchar(50),
-    `age` Integer,
-    `status` ENUM('COMPLETE', 'IN_PROGRESS', 'NOT_STARTED')
+    `description` varchar(100),
+    `goal_start` DATE,
+    `target_date` DATE,
+    `target_amount` DOUBLE,
+    `current_amount` DOUBLE,
+    `completion_Status` ENUM('COMPLETE', 'IN_PROGRESS', 'NOT_STARTED'),
+    `owner` varchar(50)
 );
