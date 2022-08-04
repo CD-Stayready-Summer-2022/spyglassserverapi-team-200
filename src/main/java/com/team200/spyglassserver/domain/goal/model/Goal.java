@@ -34,6 +34,7 @@ public class Goal {
     private Double currentAmount;
     @NonNull
     private CompletionStatus completionStatus;
+
     @NonNull
     @ManyToOne
     private User owner;

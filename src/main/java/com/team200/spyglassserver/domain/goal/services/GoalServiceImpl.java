@@ -1,13 +1,16 @@
 package com.team200.spyglassserver.domain.goal.services;
+import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 
-import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
-
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
-import com.team200.spyglassserver.domain.user.model.User;
+import com.team200.spyglassserver.domain.user.dtos.UserDTO;
 import com.team200.spyglassserver.domain.user.services.UserService;
+
+
+import com.team200.spyglassserver.domain.user.model.User;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,25 +42,36 @@ public class GoalServiceImpl implements GoalService {
 
 
     @Override
-    public Goal update(Long id, Goal goal) throws ResourceNotFoundException {
-        return null;
+    public Goal update(Long id, Goal detaill) throws ResourceNotFoundException {
+        Goal goal = getById(id);
+        goal.setGoalStart(detaill.getGoalStart());
+        goal.setCompletionStatus(detaill.getCompletionStatus());
+        goal.setOwner(detaill.getOwner());
+        goal.setDescription(detaill.getDescription());
+        goal.setTitle(detaill.getTitle());
+        goal.setCurrentAmount(detaill.getCurrentAmount());
+        goal.setTargetDate(detaill.getTargetDate());
+        goal.setTargetAmount(detaill.getTargetAmount());
+        return goal;
+
+
     }
 
-    public Optional getById(Long id) throws ResourceNotFoundException {
-        Optional goal = goalRepo.findById(id);
+    public Goal getById(Long id) throws ResourceNotFoundException {
+        Optional<Goal> goal =goalRepo.findById(id);
         if(goal.isEmpty()){
-            throw new ResourceNotFoundException("this goal doesn't exist by that id");
+
+            throw new ResourceNotFoundException("the goal with this id is not found");
+
         }
-        return goal;
+        return goal.get();
+
     }
 
     @Override
-    public List<Goal> getAll(String id) throws ResourceNotFoundException {
+    public List<Goal> getAll(String id)  {
         User user = userService.retrieveById(id);
         List<Goal> goals = goalRepo.findByOwner(user);
-        if(goals.size() == 0) {
-            throw new ResourceNotFoundException(String.format("User with id %d has no goals",id));
-        }
         return goals;
     }
 
@@ -67,14 +81,17 @@ public class GoalServiceImpl implements GoalService {
         return null;
     }
 
-    @Override
-    public Goal getAllByGoalDate(Long id) throws ResourceNotFoundException {
-        return null;
-    }
+
 
     @Override
     public List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException {
-        return null;
+
+        UserDTO owner = userService.getById(id);
+        Optional<List<Goal>> optional = goalRepo.findByOwnerAndStatus(owner, getStatusEnum(statusString));
+        if(optional.isEmpty())
+            throw new ResourceNotFoundException("User has no goals of this status");
+        return optional.get();
+
     }
 
 
@@ -85,11 +102,19 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     public Boolean delete(Long id) throws ResourceNotFoundException {
-        return null;
+     Optional<Goal>goalOptional =  goalRepo.findById(id);
+     if(goalOptional.isEmpty()){
+         throw new ResourceNotFoundException("the goal with that id is not found");
+     }
+     Goal goalToDelete = goalOptional.get();
+     goalRepo.delete(goalToDelete);
+     return true;
+
     }
     
     @Override
     public CompletionStatus getStatusEnum(String status){
+
         CompletionStatus returnStatus = null;
         switch (status){
             case "Not Started":

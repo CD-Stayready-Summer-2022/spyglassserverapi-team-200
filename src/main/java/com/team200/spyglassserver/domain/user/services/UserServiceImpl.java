@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
         return new UserDTO(user);
     }
 
+
     @Override
     public UserDTO getById(String id) throws ResourceNotFoundException {
         User User = UserRepo.findById(id)

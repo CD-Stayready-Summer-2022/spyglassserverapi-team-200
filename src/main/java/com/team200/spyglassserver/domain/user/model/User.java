@@ -3,10 +3,7 @@ package com.team200.spyglassserver.domain.user.model;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @ToString
-
+@Table(name = "users")
 public class User {
     @Id
     private String id;
