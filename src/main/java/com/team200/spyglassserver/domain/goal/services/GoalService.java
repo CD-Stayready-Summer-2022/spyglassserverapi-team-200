@@ -14,7 +14,7 @@ public interface GoalService {
 
     Goal update(Long id, Goal goal) throws ResourceNotFoundException;
 
-    Optional getById(Long id) throws ResourceNotFoundException;
+   Goal getById(Long id) throws ResourceNotFoundException;
 
     Goal getAll(Long id) throws ResourceNotFoundException;
 
@@ -25,6 +25,6 @@ public interface GoalService {
     Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException;
     Goal update(Long id, Goal detail) throws ResourceNotFoundException
 
-    Boolean delete(Long id) throws ResourceNotFoundException;
+    void delete(Long id) throws ResourceNotFoundException;
 
 }

@@ -31,16 +31,26 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal update(Long id, Goal goal) throws ResourceNotFoundException {
-        return null;
+    public Goal update(Long id, Goal detaill) throws ResourceNotFoundException {
+        Goal goal = getById(id);
+        goal.setGoalStart(detaill.getGoalStart());
+        goal.setStatus(detaill.getStatus());
+        goal.setOwner(detaill.getOwner());
+        goal.setDescription(detaill.getDescription());
+        goal.setTitle(detaill.getTitle());
+        goal.setCurrentAmount(detaill.getCurrentAmount());
+        goal.setTargetDate(detaill.getTargetDate());
+        goal.setTargetAmount(detaill.getTargetAmount());
+        return goal;
+    '
+
     }
 
-    public Optional getById(Long id) throws ResourceNotFoundException {
-        Optional goal = goalRepo.findById(id);
-        if(goal.isEmpty()){
-            throw new ResourceNotFoundException("this goal doesn' exist by that id");
-        }
+    public Goal getById(Long id) throws ResourceNotFoundException {
+        Goal goal =goalRepo.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("No Goal found with this id"));
         return goal;
+
     }
 
     @Override
@@ -69,8 +79,10 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Boolean delete(Long id) throws ResourceNotFoundException {
-        return null;
+    public void delete(Long id) throws ResourceNotFoundException {
+        Goal goal = getById(id);
+        goalRepo.delete(goal);
+
     }
 
 }
