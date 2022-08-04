@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
         this.UserRepo = UserRepo;
         this.FirebaseUserMgrService = FirebaseUserMgrService;
     }
-
-    private User retrieveById(String id) throws ResourceNotFoundException {
+    @Override
+    public User retrieveById(String id) throws ResourceNotFoundException {
         User user = UserRepo.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(""));
         return user;
