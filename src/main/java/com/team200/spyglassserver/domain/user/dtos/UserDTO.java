@@ -9,9 +9,9 @@ public class UserDTO {
     private String fullName;
     private Integer numberOfGoals;
 
-    public UserDTO(User userProfile){
-        id = userProfile.getId();
-        fullName = String.format("%s %s",userProfile.getFirstName(),userProfile.getLastName());
-        numberOfGoals = userProfile.getGoals().size();
+    public UserDTO(User user){
+        id = user.getId();
+        fullName = String.format("%s %s", user.getFirstName(), user.getLastName());
+        numberOfGoals = user.getGoals().size();
     }
 }
