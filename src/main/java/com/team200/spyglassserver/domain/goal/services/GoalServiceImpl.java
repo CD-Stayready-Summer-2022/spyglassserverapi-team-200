@@ -60,7 +60,9 @@ public class GoalServiceImpl implements GoalService {
     public Goal getById(Long id) throws ResourceNotFoundException {
         Optional<Goal> goal =goalRepo.findById(id);
         if(goal.isEmpty()){
+
             throw new ResourceNotFoundException("the goal with this id is not found");
+
         }
         return goal.get();
 
