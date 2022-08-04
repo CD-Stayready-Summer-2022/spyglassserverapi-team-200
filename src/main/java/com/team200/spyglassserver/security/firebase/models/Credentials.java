@@ -1,7 +1,8 @@
 package com.team200.spyglassserver.security.firebase.models;
 
-import com.codedifferently.watertrackerapi.security.firebase.enums.CredentialType;
+
 import com.google.firebase.auth.FirebaseToken;
+import com.team200.spyglassserver.security.firebase.enums.CredentialType;
 
 public class Credentials {
     private CredentialType type;

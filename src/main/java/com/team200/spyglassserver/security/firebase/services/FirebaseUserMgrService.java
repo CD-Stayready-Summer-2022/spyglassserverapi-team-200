@@ -1,12 +1,13 @@
 package com.team200.spyglassserver.security.firebase.services;
 
-import com.codedifferently.watertrackerapi.domain.core.exceptions.ResourceCreationException;
-import com.codedifferently.watertrackerapi.domain.core.exceptions.ResourceUpdateException;
-import com.codedifferently.watertrackerapi.domain.userProfiles.dtos.UserProfileCreateRequest;
-import com.codedifferently.watertrackerapi.domain.userProfiles.models.UserProfile;
+
+import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
+import com.team200.spyglassserver.domain.core.exceptions.ResourceUpdateException;
+import com.team200.spyglassserver.domain.user.dtos.UserCreateRequest;
+import com.team200.spyglassserver.domain.user.model.User;
 
 public interface FirebaseUserMgrService {
-    String createFireBaseUser(UserProfileCreateRequest userDetail) throws ResourceCreationException;
-    void updateFireBaseUser(UserProfile userDetail) throws ResourceUpdateException;
+    String createFireBaseUser(UserCreateRequest userDetail) throws ResourceCreationException;
+    void updateFireBaseUser(User userDetail) throws ResourceUpdateException;
     void deleteFireBaseUser(String id) throws ResourceUpdateException;
 }
