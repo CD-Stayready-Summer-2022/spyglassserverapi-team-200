@@ -1,8 +1,9 @@
 package com.team200.spyglassserver.security.firebase.utils;
 
-import com.codedifferently.watertrackerapi.security.firebase.models.SecurityProperties;
+
 import com.google.auth.Credentials;
 import com.google.firebase.remoteconfig.User;
+import com.team200.spyglassserver.security.firebase.models.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

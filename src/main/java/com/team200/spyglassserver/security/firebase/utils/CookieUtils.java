@@ -1,6 +1,7 @@
 package com.team200.spyglassserver.security.firebase.utils;
 
-import com.codedifferently.watertrackerapi.security.firebase.models.SecurityProperties;
+
+import com.team200.spyglassserver.security.firebase.models.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;

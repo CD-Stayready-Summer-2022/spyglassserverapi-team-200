@@ -10,8 +10,7 @@ CREATE TABLE  IF NOT EXISTS`users`(
     `dob` DATE
 );
 
-
-create table `goal`(
+CREATE TABLE  IF NOT EXISTS `goal`(
 	`id` Integer Primary Key auto_increment,
     `title` varchar(255),
     `description` varchar(255),
@@ -21,3 +20,4 @@ create table `goal`(
     `current_amount` DOUBLE,
     completion_status ENUM('COMPLETE', 'IN_PROGRESS', 'NOT_STARTED')
 );
+
