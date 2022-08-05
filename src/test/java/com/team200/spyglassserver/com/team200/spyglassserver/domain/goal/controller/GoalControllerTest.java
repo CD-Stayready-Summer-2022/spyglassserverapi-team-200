@@ -1,6 +1,7 @@
 package com.team200.spyglassserver.com.team200.spyglassserver.domain.goal.controller;
 
 import com.team200.spyglassserver.com.team200.spyglassserver.domain.JsonConverter;
+import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.goal.controller.GoalController;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
@@ -29,12 +30,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 
 import static org.mockito.ArgumentMatchers.any;
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
@@ -79,7 +82,6 @@ public class GoalControllerTest {
     }
 
     @Test
-
     @DisplayName("Create test - Success")
     public void createTest01() throws Exception {
         BDDMockito.doReturn(mockGoal).when(goalService).create(any());
@@ -91,13 +93,24 @@ public class GoalControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)));
     }
 
+    @Test
+    @DisplayName("Create test - Fail")
+    public void createTest02() throws Exception {
+        BDDMockito.doReturn(mockGoal).when(goalService).getById(any());
+        BDDMockito.doThrow(new ResourceCreationException()).when(goalService).create(any());
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isConflict());
+
+    }
+
 
     @DisplayName("GET byStatus /getByStatus - success")
     public void getByStatusTest01() throws Exception {
         List expectedGoals = new ArrayList<>();
         expectedGoals.add(testGoal1);
         BDDMockito.doReturn(expectedGoals).when(goalService).getAllByStatus(any(), any());
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test","Complete")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test", "Complete")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
@@ -107,7 +120,7 @@ public class GoalControllerTest {
     @DisplayName("GET byStatus /getByStatus/{id}/{status} - fail")
     public void getByStatusTest02() throws Exception {
         BDDMockito.doThrow(new ResourceNotFoundException("User has no goals")).when(goalService).getAllByStatus(any(), any());
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test","Complete")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test", "Complete")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
@@ -117,12 +130,12 @@ public class GoalControllerTest {
     public void getByTargetAmount01() throws Exception {
         List expectedGoals = new ArrayList<>();
         expectedGoals.add(testGoal1);
-        BDDMockito.doReturn(expectedGoals).when(goalService).getByTargetAmount(any(),any(),any());
+        BDDMockito.doReturn(expectedGoals).when(goalService).getByTargetAmount(any(), any(), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByTargetAmount")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("id", "test")
-                .param("start", "0")
-                .param("end", "5"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("id", "test")
+                        .param("start", "0")
+                        .param("end", "5"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
@@ -130,12 +143,12 @@ public class GoalControllerTest {
     @Test
     @DisplayName("GET byTargetAmount /getByTargetAmount/ - fail")
     public void getByTargetAmount02() throws Exception {
-        BDDMockito.doThrow(new ResourceNotFoundException("User has no goals")).when(goalService).getByTargetAmount(any(),any(),any());
+        BDDMockito.doThrow(new ResourceNotFoundException("User has no goals")).when(goalService).getByTargetAmount(any(), any(), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByTargetAmount")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("id", "test")
-                .param("start", "0")
-                .param("end", "5"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("id", "test")
+                        .param("start", "0")
+                        .param("end", "5"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
 
     }
