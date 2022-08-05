@@ -10,6 +10,7 @@ import com.team200.spyglassserver.domain.goal.services.GoalService;
 import com.team200.spyglassserver.domain.user.model.User;
 import com.team200.spyglassserver.domain.user.services.UserService;
 
+import com.team200.spyglassserver.domain.user.repo.UserRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,15 +28,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.List;
-
-import java.util.Optional;
-
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class GoalServiceTest {
     @MockBean
     private GoalRepo goalRepo;
+
+
+    @MockBean
+    private UserRepo userRepo;
+
     @Autowired
     private GoalService goalService;
     @MockBean
@@ -47,12 +49,15 @@ public class GoalServiceTest {
     private User owner;
 
     private User mockUser;
+    private User mockUser2;
     private List<Goal> mockGoalList;
 
     @BeforeEach
     public void setUp() {
-        mockUser = new User("test", "user", "daniel", mockGoalList);
+        mockUser = new User("test", "user", "daniel");
         mockUser.setId("test");
+        mockUser2 = new User();
+        mockUser2.setId("Test2");
         mockGoal = new Goal("test", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
 
         mockGoal.setId(1l);
@@ -93,9 +98,13 @@ public class GoalServiceTest {
     @DisplayName("Get All test - success")
     public void getAllTest01() {
         BDDMockito.doReturn(mockGoalList).when(goalRepo).findByOwner(mockUser);
+        BDDMockito.doReturn(Optional.of(mockUser) ).when(userRepo).findById("test");
         List<Goal> goals = goalService.getAll(mockUser.getId());
         Assertions.assertEquals(goals, mockGoalList);
     }
+
+
+
 
     @Test
     @DisplayName("Get By Status Test - success ")
@@ -110,7 +119,7 @@ public class GoalServiceTest {
     }
     @Test
     @DisplayName("Get By Id - Success")
-    public void getGoalByIdTestSuccess()throws ResourceNotFoundException {
+    public void getGoalByIdTestSuccess() throws ResourceNotFoundException {
         BDDMockito.doReturn(Optional.of(mockGoal)).when(goalRepo).findById(1L);
         Goal foundGoal = goalService.getById(1L);
         Assertions.assertEquals(mockGoal,foundGoal);

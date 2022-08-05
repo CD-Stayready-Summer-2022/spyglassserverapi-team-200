@@ -8,7 +8,6 @@ import com.team200.spyglassserver.domain.goal.model.Goal;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface GoalService {
 
@@ -21,7 +20,7 @@ public interface GoalService {
     Goal getById(Long id) throws ResourceNotFoundException;
 
 
-    List<Goal> getAll(String id) throws ResourceNotFoundException;
+    List<Goal> getAll(String id) ;
 
     Goal getAllByTargetDate(Date date) throws ResourceNotFoundException;
 
