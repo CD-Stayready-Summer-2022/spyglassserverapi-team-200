@@ -1,5 +1,6 @@
 package com.team200.spyglassserver.com.team200.spyglassserver.domain.user.services;
 
+import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.user.dtos.UserCreateRequest;
 import com.team200.spyglassserver.domain.user.dtos.UserDTO;
 import com.team200.spyglassserver.domain.user.model.User;
@@ -49,5 +50,18 @@ public class UserServiceTest {
         BDDMockito.doReturn(mockUser).when(userRepo).save(any());
         UserDTO user =userService.create(mockDetail);
         Assertions.assertEquals(expectedId, user.getId());
+    }
+    @Test
+    public void createUserProfileTest02(){
+        BDDMockito.doReturn(Optional.of(mockUser)).when((userRepo).findByEmail(any()));
+        Assertions.assertThrows(ResourceCreationException.class, ()->{
+            userService.create(mockDetail);
+        });
+    }
+    @Test
+    public void getByIdTest01(){
+        BDDMockito.doReturn(Optional.of(mockUser)).when(userRepo).findById(any());
+        UserDTO user = userService.getById("test237");
+        Assertions.assertEquals(expectedId,user.getId());
     }
 }
