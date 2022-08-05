@@ -1,20 +1,17 @@
 package com.team200.spyglassserver.domain.goal.model;
 import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
-
 import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
-
-
 @ToString
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name = "goal")
+@Table(name = "goals")
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +31,6 @@ public class Goal {
     private Double currentAmount;
     @NonNull
     private CompletionStatus completionStatus;
-
     @NonNull
     @ManyToOne
     private User owner;

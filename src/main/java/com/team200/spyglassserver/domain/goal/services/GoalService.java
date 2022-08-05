@@ -4,13 +4,10 @@ import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 
-
 import com.team200.spyglassserver.domain.goal.model.Goal;
-import org.apache.catalina.User;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface GoalService {
 
@@ -23,19 +20,12 @@ public interface GoalService {
     Goal getById(Long id) throws ResourceNotFoundException;
 
 
-    List<Goal> getAll(String id) throws ResourceNotFoundException;
+    List<Goal> getAll(String id) ;
 
     Goal getAllByTargetDate(Date date) throws ResourceNotFoundException;
 
-
-
     List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException;
-
-    Goal getByTargetAmount(Double start, Double end) throws ResourceNotFoundException;
-
-
-
-
+    List<Goal> getByTargetAmount(String id, Double start, Double end) throws ResourceNotFoundException;
     Boolean delete(Long id) throws ResourceNotFoundException;
     CompletionStatus getStatusEnum(String status);
 
