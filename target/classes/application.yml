@@ -52,3 +52,6 @@ security:
     - /**/userprofile/create
   exposed-headers:
     - X-Xsrf-Token
+
+server:
+  port: 8081

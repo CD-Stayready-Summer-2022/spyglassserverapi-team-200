@@ -94,7 +94,6 @@ public class GoalServiceImpl implements GoalService {
         List<Goal> goals = goalRepo.findByOwner(owner)
                .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
         goals.removeIf(goal -> !goal.getCompletionStatus().getValue().equals(statusString));
-        ;
         return goals;
     }
 
@@ -119,21 +118,5 @@ public class GoalServiceImpl implements GoalService {
      goalRepo.delete(goalToDelete);
      return true;
 
-    }
-    
-    @Override
-    public CompletionStatus getStatusEnum(String status){
-        CompletionStatus returnStatus = null;
-        switch (status){
-            case "Not Started":
-                returnStatus =  CompletionStatus.NOT_STARTED;
-                break;
-            case "In Progress":
-                returnStatus = CompletionStatus.IN_PROGRESS;
-                break;
-            case "Complete":
-                returnStatus = CompletionStatus.COMPLETE;
-        }
-        return returnStatus;
     }
 }

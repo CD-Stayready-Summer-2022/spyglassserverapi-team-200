@@ -28,6 +28,4 @@ public interface GoalService {
     List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException;
     List<Goal> getByTargetAmount(String id, Double start, Double end) throws ResourceNotFoundException;
     Boolean delete(Long id) throws ResourceNotFoundException;
-    CompletionStatus getStatusEnum(String status);
-
 }
