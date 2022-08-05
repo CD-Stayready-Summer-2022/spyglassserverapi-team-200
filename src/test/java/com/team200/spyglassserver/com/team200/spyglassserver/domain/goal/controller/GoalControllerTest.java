@@ -88,7 +88,7 @@ public class GoalControllerTest {
                         .content(JsonConverter.asJsonString(mockGoal)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1l)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)));
     }
 
 
