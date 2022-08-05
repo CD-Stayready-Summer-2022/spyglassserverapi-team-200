@@ -27,6 +27,7 @@ public class User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @NonNull
     private List<Goal>goals;
 
     public User(@NonNull String firstName, @NonNull String lastName, @NonNull String email, List<Goal> goals) {
