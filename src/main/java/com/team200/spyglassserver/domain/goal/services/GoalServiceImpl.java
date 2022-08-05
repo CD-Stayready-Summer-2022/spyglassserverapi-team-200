@@ -6,7 +6,7 @@ import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundExcepti
 
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
-import com.team200.spyglassserver.domain.user.dtos.UserDTO;
+
 import com.team200.spyglassserver.domain.user.services.UserService;
 
 
