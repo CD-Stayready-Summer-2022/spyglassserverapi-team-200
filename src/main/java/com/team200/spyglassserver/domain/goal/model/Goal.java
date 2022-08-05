@@ -1,4 +1,5 @@
 package com.team200.spyglassserver.domain.goal.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
@@ -33,6 +34,7 @@ public class Goal {
     private CompletionStatus completionStatus;
     @NonNull
     @ManyToOne
+    @JsonBackReference
     private User owner;
 
     @PrePersist

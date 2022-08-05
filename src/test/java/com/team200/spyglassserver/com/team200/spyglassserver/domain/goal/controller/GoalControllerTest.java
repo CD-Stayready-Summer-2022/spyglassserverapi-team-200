@@ -6,7 +6,7 @@ import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
 
 import com.team200.spyglassserver.domain.user.dtos.UserDTO;
-import com.team200.spyglassserver.domain.user.repo.UserRepo;
+
 import com.team200.spyglassserver.domain.user.services.UserService;
 import org.hamcrest.core.Is;
 
@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
@@ -57,7 +57,7 @@ public class GoalControllerTest {
 
     @BeforeEach
     public void setUp() {
-        mockUser = new User("test", "user", "daniel", mockGoalList);
+        mockUser = new User("test", "user", "daniel");
         mockUser.setId("test");
         mockDTO = new UserDTO(mockUser);
         mockGoal = new Goal("test", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
@@ -66,6 +66,7 @@ public class GoalControllerTest {
         mockGoalList = new ArrayList<>();
         mockGoalList.add(mockGoal);
         mockGoalList.add(testGoal1);
+        mockUser.setGoals(mockGoalList);
         owner = new User();
         owner.setId("ownerID");
         FireBaseUser fireBaseUser = new FireBaseUser();
@@ -82,13 +83,12 @@ public class GoalControllerTest {
     @DisplayName("Create test - Success")
     public void createTest01() throws Exception {
         BDDMockito.doReturn(mockGoal).when(goalService).create(any());
-        BDDMockito.doReturn(mockDTO).when(userService).create(any());
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.asJsonString(mockGoal)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1l)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)));
     }
 
 

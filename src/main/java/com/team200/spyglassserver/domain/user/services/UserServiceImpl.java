@@ -2,7 +2,6 @@ package com.team200.spyglassserver.domain.user.services;
 
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
-import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.user.dtos.UserCreateRequest;
 import com.team200.spyglassserver.domain.user.dtos.UserDTO;
 import com.team200.spyglassserver.domain.user.model.User;
