@@ -52,7 +52,7 @@ public class UserServiceTest {
         Assertions.assertEquals(expectedId, user.getId());
     }
     @Test
-    public void createUserProfileTest02(){
+    public void userCreationTest02(){
         BDDMockito.doReturn(Optional.of(mockUser)).when((userRepo).findByEmail(any()));
         Assertions.assertThrows(ResourceCreationException.class, ()->{
             userService.create(mockDetail);
