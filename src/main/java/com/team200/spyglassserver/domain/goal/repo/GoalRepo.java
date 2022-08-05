@@ -20,13 +20,10 @@ public interface GoalRepo extends JpaRepository<Goal, Long> {
 
     List<Goal> findByTargetDate(Date date);
 
-
-
-    Optional<List<Goal>>findByOwnerAndStatus(UserDTO owner, CompletionStatus status);
     List<Goal>findByTargetAmount(Double targetAmount);
 
-    List<Goal>findByStatus(CompletionStatus status);
+    List<Goal>findByCompletionStatus(CompletionStatus completionStatus);
 
-    List<Goal> findByOwner(User user);
+    Optional<List<Goal>> findByOwner(User user);
 
 }

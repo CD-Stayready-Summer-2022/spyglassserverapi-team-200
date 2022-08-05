@@ -107,7 +107,8 @@ public class GoalServiceTest {
         BDDMockito.doReturn(Optional.of(expectedGoals)).when(goalRepo).findByOwner(owner);
         List<Goal> actualGoals = goalService.getAllByStatus("ownerID", "In Progress");
         Assertions.assertEquals(expectedGoals, actualGoals);
-
+    }
+    @Test
     @DisplayName("Get By Id - Success")
     public void getGoalByIdTestSuccess()throws ResourceNotFoundException {
         BDDMockito.doReturn(Optional.of(mockGoal)).when(goalRepo).findById(1L);

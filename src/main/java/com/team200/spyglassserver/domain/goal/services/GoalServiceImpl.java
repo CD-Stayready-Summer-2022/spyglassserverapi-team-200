@@ -23,6 +23,7 @@ import java.util.Optional;
 @Service
 public class GoalServiceImpl implements GoalService {
     private GoalRepo goalRepo;
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -72,11 +73,11 @@ public class GoalServiceImpl implements GoalService {
     @Override
     public List<Goal> getAll(String id) throws ResourceNotFoundException {
         User user = userService.retrieveById(id);
-        List<Goal> goals = goalRepo.findByOwner(user);
-        if(goals.size() == 0) {
+        Optional<List<Goal>> goals = goalRepo.findByOwner(user);
+        if(goals.get().size() == 0) {
             throw new ResourceNotFoundException(String.format("User with id %d has no goals",id));
         }
-        return goals;
+        return goals.get();
     }
 
 
@@ -92,10 +93,8 @@ public class GoalServiceImpl implements GoalService {
         User owner = userService.retrieveById(id);
         List<Goal> goals = goalRepo.findByOwner(owner)
                .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
-        goals.forEach( goal -> {
-            if(!goal.getCompletionStatus().getValue().equals(statusString))
-                goals.remove(goal);
-        });
+        goals.removeIf(goal -> !goal.getCompletionStatus().getValue().equals(statusString));
+        ;
         return goals;
     }
 
@@ -105,10 +104,8 @@ public class GoalServiceImpl implements GoalService {
         User owner = userService.retrieveById(id);
         List<Goal> goals = goalRepo.findByOwner(owner)
                 .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
-        goals.forEach(goal -> {
-            if(!(goal.getTargetAmount() >= start && goal.getTargetAmount()<= end))
-                goals.remove(goal);
-        });
+        goals.removeIf(goal -> !(goal.getTargetAmount() >= start && goal.getTargetAmount() <= end));
+        ;
         return goals;
     }
 

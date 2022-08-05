@@ -17,14 +17,20 @@ import java.util.List;
 public class GoalController {
     @Autowired
     private GoalService goalService;
-
+    @Autowired
     public GoalController(GoalService goalService) {
         this.goalService = goalService;
     }
 
-    @GetMapping("/getByStatus")
-    public ResponseEntity<List<Goal>> getByStatus(@RequestParam(name = "id") String id, @RequestParam(name = "status") String statusString){
+    @GetMapping("/getByStatus/{id}/{status}")
+    public ResponseEntity<List<Goal>> getByStatus(@PathVariable(name = "id") String id, @PathVariable(name = "status") String statusString){
         List<Goal> goals =  goalService.getAllByStatus(id, statusString);
+        return new ResponseEntity<>(goals, HttpStatus.OK);
+    }
+
+    @GetMapping("/getByTargetAmount")
+    public ResponseEntity<List<Goal>> getByTargetAmount(@RequestParam(name = "id") String id, @RequestParam(name = "start") Double start, @RequestParam(name = "start") Double end) {
+        List<Goal> goals = goalService.getByTargetAmount(id, start, end);
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
 
