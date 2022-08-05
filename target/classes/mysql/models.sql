@@ -1,6 +1,6 @@
 create database `spyglass`;
 
-use `spyglass-api`;
+use `spyglass`;
 
 CREATE TABLE  IF NOT EXISTS`users`(
 	`id` INTEGER NOT NULL auto_increment PRIMARY KEY,
