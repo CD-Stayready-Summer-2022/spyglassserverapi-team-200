@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
         this.UserRepo = UserRepo;
         this.FirebaseUserMgrService = FirebaseUserMgrService;
     }
+
     @Override
     public User retrieveById(String id) throws ResourceNotFoundException {
         User user = UserRepo.findById(id)
@@ -46,11 +47,6 @@ public class UserServiceImpl implements UserService {
         return new UserDTO(user);
     }
 
-
-    @Override
-    public Iterable<UserDTO> getAll() {
-        return null;
-    }
 
     @Override
     public UserDTO getById(String id) throws ResourceNotFoundException {
@@ -82,13 +78,4 @@ public class UserServiceImpl implements UserService {
         FirebaseUserMgrService.deleteFireBaseUser(id);
         UserRepo.delete(user);
     }
-
-    @Override
-    public Iterable<UserDTO> getGoals(String id) throws ResourceNotFoundException {
-        User user = retrieveById(id);
-        List<Goal> goals = user.getGoals();
-        //for (Goal goal:goals) {
-            //userProfileDTOS.add(new UserProfileDTO(userProfile));
-        return null;
-        }
-    }
+}

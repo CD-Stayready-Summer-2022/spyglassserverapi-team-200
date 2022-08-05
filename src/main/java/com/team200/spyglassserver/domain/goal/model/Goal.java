@@ -1,5 +1,4 @@
 package com.team200.spyglassserver.domain.goal.model;
-
 import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
@@ -14,6 +13,7 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
+@Table(name = "goals")
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
