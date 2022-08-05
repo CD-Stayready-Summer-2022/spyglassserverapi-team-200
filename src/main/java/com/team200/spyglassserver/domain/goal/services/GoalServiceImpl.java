@@ -6,7 +6,6 @@ import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundExcepti
 
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.repo.GoalRepo;
-
 import com.team200.spyglassserver.domain.user.services.UserService;
 
 
@@ -71,12 +70,9 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public List<Goal> getAll(String id) throws ResourceNotFoundException {
+    public List<Goal> getAll(String id)  {
         User user = userService.retrieveById(id);
         Optional<List<Goal>> goals = goalRepo.findByOwner(user);
-        if(goals.get().size() == 0) {
-            throw new ResourceNotFoundException(String.format("User with id %d has no goals",id));
-        }
         return goals.get();
     }
 
@@ -94,7 +90,6 @@ public class GoalServiceImpl implements GoalService {
         List<Goal> goals = goalRepo.findByOwner(owner)
                .orElseThrow(() -> new ResourceNotFoundException("User has no goals"));
         goals.removeIf(goal -> !goal.getCompletionStatus().getValue().equals(statusString));
-        ;
         return goals;
     }
 
