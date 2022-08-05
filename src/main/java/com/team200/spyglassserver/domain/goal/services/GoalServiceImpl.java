@@ -115,20 +115,4 @@ public class GoalServiceImpl implements GoalService {
      return true;
 
     }
-    
-    @Override
-    public CompletionStatus getStatusEnum(String status){
-        CompletionStatus returnStatus = null;
-        switch (status){
-            case "Not Started":
-                returnStatus =  CompletionStatus.NOT_STARTED;
-                break;
-            case "In Progress":
-                returnStatus = CompletionStatus.IN_PROGRESS;
-                break;
-            case "Complete":
-                returnStatus = CompletionStatus.COMPLETE;
-        }
-        return returnStatus;
-    }
 }

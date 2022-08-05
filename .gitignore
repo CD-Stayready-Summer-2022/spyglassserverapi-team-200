@@ -1,3 +1,4 @@
 .idea/*
 **mvnw
 src/main/resources/firebase_config.json
+target

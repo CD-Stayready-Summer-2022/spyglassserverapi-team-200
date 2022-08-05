@@ -1,6 +1,8 @@
 package com.team200.spyglassserver.domain.goal.controller;
 
 
+import com.team200.spyglassserver.domain.goal.DTOS.StatusDTO;
+import com.team200.spyglassserver.domain.goal.DTOS.TargetAmountDTO;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
@@ -23,9 +25,9 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @GetMapping("/getByStatus/{id}/{status}")
-    public ResponseEntity<List<Goal>> getByStatus(@PathVariable(name = "id") String id, @PathVariable(name = "status") String statusString) {
-        List<Goal> goals = goalService.getAllByStatus(id, statusString);
+    @GetMapping("/getByStatus")
+    public ResponseEntity<List<Goal>> getByStatus(@RequestBody StatusDTO status){
+        List<Goal> goals =  goalService.getAllByStatus(status.getId(), status.getStatusString());
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
 
@@ -41,14 +43,10 @@ public class GoalController {
         List<Goal> goals = goalService.getAll(id);
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
-
-
     @GetMapping("/getByTargetAmount")
-    public ResponseEntity<List<Goal>> getByTargetAmount(@RequestParam(name = "id") String id, @RequestParam(name = "start") Double start, @RequestParam(name = "start") Double end) {
-        List<Goal> goals = goalService.getByTargetAmount(id, start, end);
+    public ResponseEntity<List<Goal>> getByTargetAmount(@RequestBody TargetAmountDTO targetAmountDTO) {
+        List<Goal> goals = goalService.getByTargetAmount(targetAmountDTO.getId(), targetAmountDTO.getStart(), targetAmountDTO.getEnd());
         return new ResponseEntity<>(goals, HttpStatus.OK);
 
     }
 }
-
-
