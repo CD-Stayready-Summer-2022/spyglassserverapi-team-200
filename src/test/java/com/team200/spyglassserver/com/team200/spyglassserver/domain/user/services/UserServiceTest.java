@@ -53,9 +53,9 @@ public class UserServiceTest {
     }
     @Test
     public void userCreationTest02(){
-        BDDMockito.doReturn(Optional.of(mockUser)).when((userRepo).findByEmail(any()));
+        BDDMockito.doReturn(Optional.of(mockUser)).when(userRepo).findByEmail(any());
         Assertions.assertThrows(ResourceCreationException.class, ()->{
-            userService.create(mockDetail);
+           userService.create(mockDetail);
         });
     }
     @Test
