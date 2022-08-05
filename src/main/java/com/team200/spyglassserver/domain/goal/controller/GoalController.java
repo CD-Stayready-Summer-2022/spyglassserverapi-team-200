@@ -1,6 +1,7 @@
 package com.team200.spyglassserver.domain.goal.controller;
 
 
+import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
 
@@ -30,7 +31,7 @@ public class GoalController {
 
 
     @PostMapping("create")
-    public ResponseEntity<Goal> create(@RequestBody Goal goal) {
+    public ResponseEntity<Goal> create(@RequestBody Goal goal) throws ResourceCreationException {
         Goal createdGoal = goalService.create(goal);
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
     }
