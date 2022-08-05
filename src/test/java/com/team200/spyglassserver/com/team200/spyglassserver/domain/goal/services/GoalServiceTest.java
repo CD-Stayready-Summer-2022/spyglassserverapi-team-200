@@ -54,7 +54,7 @@ public class GoalServiceTest {
 
     @BeforeEach
     public void setUp() {
-        mockUser = new User("test", "user", "daniel", mockGoalList);
+        mockUser = new User("test", "user", "daniel");
         mockUser.setId("test");
         mockUser2 = new User();
         mockUser2.setId("Test2");
@@ -119,7 +119,7 @@ public class GoalServiceTest {
     }
     @Test
     @DisplayName("Get By Id - Success")
-    public void getGoalByIdTestSuccess()throws ResourceNotFoundException {
+    public void getGoalByIdTestSuccess() throws ResourceNotFoundException {
         BDDMockito.doReturn(Optional.of(mockGoal)).when(goalRepo).findById(1L);
         Goal foundGoal = goalService.getById(1L);
         Assertions.assertEquals(mockGoal,foundGoal);

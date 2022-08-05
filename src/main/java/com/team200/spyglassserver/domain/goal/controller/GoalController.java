@@ -16,7 +16,6 @@ import java.util.Optional;
 @RequestMapping("/api/v1/goals")
 public class GoalController {
 
-
     private GoalService goalService;
 
     public GoalController(GoalService goalService) {
