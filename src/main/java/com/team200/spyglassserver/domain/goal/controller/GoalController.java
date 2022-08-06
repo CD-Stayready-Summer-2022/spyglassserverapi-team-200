@@ -1,8 +1,6 @@
 package com.team200.spyglassserver.domain.goal.controller;
 
 
-import com.team200.spyglassserver.domain.goal.DTOS.StatusDTO;
-import com.team200.spyglassserver.domain.goal.DTOS.TargetAmountDTO;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 import com.team200.spyglassserver.domain.goal.model.Goal;
@@ -26,20 +24,19 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @GetMapping("/getByStatus")
-    public ResponseEntity<List<Goal>> getByStatus(@RequestBody StatusDTO status){
-        List<Goal> goals =  goalService.getAllByStatus(status.getId(), status.getStatusString());
+    @GetMapping("/getByStatus/{id}/{status}")
+    public ResponseEntity<List<Goal>> getByStatus(@PathVariable(name = "id") String id, @PathVariable(name = "status") String statusString) {
+        List<Goal> goals = goalService.getAllByStatus(id, statusString);
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
 
 
-    @PostMapping("create/{id}")
-    public ResponseEntity<Goal> create(@PathVariable String id,  @RequestBody Goal goal) throws ResourceCreationException {
-        Goal createdGoal = goalService.create(id, goal);
+    @PostMapping("create")
+    public ResponseEntity<Goal> create(@RequestBody Goal goal) throws ResourceCreationException {
+        Goal createdGoal = goalService.create(goal);
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
     }
 
-<<<<<<< HEAD
     @GetMapping("/{id}")
     public ResponseEntity<Goal> getGoalById(@PathVariable Long id) {
         Goal goal = goalService.getById(id);
@@ -49,16 +46,14 @@ public class GoalController {
 
     @GetMapping("{id}/goals")
     public ResponseEntity<List<Goal>> getAll(@RequestParam String id) {
-=======
-    @GetMapping("{id}")
-    public ResponseEntity<List<Goal>> getAll(@PathVariable(name = "id") String id) {
->>>>>>> 32e640ed83c6e231e686c7b9bf31c53bb9126a4c
         List<Goal> goals = goalService.getAll(id);
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
+
+
     @GetMapping("/getByTargetAmount")
-    public ResponseEntity<List<Goal>> getByTargetAmount(@RequestBody TargetAmountDTO targetAmountDTO) {
-        List<Goal> goals = goalService.getByTargetAmount(targetAmountDTO.getId(), targetAmountDTO.getStart(), targetAmountDTO.getEnd());
+    public ResponseEntity<List<Goal>> getByTargetAmount(@RequestParam(name = "id") String id, @RequestParam(name = "start") Double start, @RequestParam(name = "start") Double end) {
+        List<Goal> goals = goalService.getByTargetAmount(id, start, end);
         return new ResponseEntity<>(goals, HttpStatus.OK);
 
     }
@@ -83,3 +78,5 @@ public class GoalController {
     }
 
 }
+
+
