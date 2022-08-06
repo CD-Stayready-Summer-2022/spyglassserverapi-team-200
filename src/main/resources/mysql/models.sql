@@ -18,6 +18,7 @@ CREATE TABLE  IF NOT EXISTS `goal`(
     `target_date` DATE,
     `target_amount` DOUBLE,
     `current_amount` DOUBLE,
-    completion_status ENUM('COMPLETE', 'IN_PROGRESS', 'NOT_STARTED')
+    `completion_status` ENUM('COMPLETE', 'IN_PROGRESS', 'NOT_STARTED'),
+    `owner_id` varchar(50)
 );
 

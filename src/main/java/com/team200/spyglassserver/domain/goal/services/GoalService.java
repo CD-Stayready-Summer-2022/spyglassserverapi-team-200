@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface GoalService {
 
-    Goal create(Goal goal) throws ResourceCreationException;
 
+    Goal create(String id, Goal goal) throws ResourceCreationException;
 
     Goal update(Long id, Goal goal) throws ResourceNotFoundException;
 
@@ -27,6 +27,4 @@ public interface GoalService {
     List<Goal> getAllByStatus(String id, String statusString) throws ResourceNotFoundException;
     List<Goal> getByTargetAmount(String id, Double start, Double end) throws ResourceNotFoundException;
     Boolean delete(Long id) throws ResourceNotFoundException;
-    CompletionStatus getStatusEnum(String status);
-
 }

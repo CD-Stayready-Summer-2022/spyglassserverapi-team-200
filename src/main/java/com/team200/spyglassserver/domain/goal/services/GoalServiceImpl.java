@@ -1,5 +1,4 @@
 package com.team200.spyglassserver.domain.goal.services;
-import com.team200.spyglassserver.domain.core.enums.CompletionStatus;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
 import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 
@@ -32,11 +31,18 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal create(Goal goal) throws ResourceCreationException {
+    public Goal create(String id, Goal goal) throws ResourceCreationException {
         Optional<Goal> goalOptional  = goalRepo.findByTitle(goal.getTitle());
+<<<<<<< HEAD
         if(goalOptional.isPresent()) {
             throw new ResourceCreationException("");
         }
+=======
+        if(goalOptional.isPresent())
+            throw new ResourceCreationException();
+        User owner = userService.retrieveById(id);
+        goal.setOwner(owner);
+>>>>>>> 32e640ed83c6e231e686c7b9bf31c53bb9126a4c
         return goalRepo.save(goal);
     }
 
@@ -59,11 +65,9 @@ public class GoalServiceImpl implements GoalService {
     }
 
     public Goal getById(Long id) throws ResourceNotFoundException {
-        Optional<Goal> goal =goalRepo.findById(id);
+        Optional<Goal> goal = goalRepo.findById(id);
         if(goal.isEmpty()){
-
             throw new ResourceNotFoundException("the goal with this id is not found");
-
         }
         return goal.get();
 
@@ -114,21 +118,5 @@ public class GoalServiceImpl implements GoalService {
      goalRepo.delete(goalToDelete);
      return true;
 
-    }
-    
-    @Override
-    public CompletionStatus getStatusEnum(String status){
-        CompletionStatus returnStatus = null;
-        switch (status){
-            case "Not Started":
-                returnStatus =  CompletionStatus.NOT_STARTED;
-                break;
-            case "In Progress":
-                returnStatus = CompletionStatus.IN_PROGRESS;
-                break;
-            case "Complete":
-                returnStatus = CompletionStatus.COMPLETE;
-        }
-        return returnStatus;
     }
 }
