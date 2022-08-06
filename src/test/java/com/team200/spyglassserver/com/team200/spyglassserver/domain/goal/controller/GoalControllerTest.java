@@ -102,7 +102,7 @@ public class GoalControllerTest {
     @DisplayName("Create test - Fail")
     public void createTest02() throws Exception {
         BDDMockito.doReturn(mockGoal).when(goalService).getById(any());
-        BDDMockito.doThrow(new ResourceCreationException()).when(goalService).create(any(), any());
+        BDDMockito.doThrow(new ResourceCreationException("Goal already exists")).when(goalService).create(any(), any());
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create/{id}", "test")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.asJsonString(mockGoal)))

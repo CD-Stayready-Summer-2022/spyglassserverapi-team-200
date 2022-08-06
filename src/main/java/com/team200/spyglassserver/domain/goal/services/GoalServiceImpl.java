@@ -34,7 +34,7 @@ public class GoalServiceImpl implements GoalService {
     public Goal create(String id, Goal goal) throws ResourceCreationException {
         Optional<Goal> goalOptional  = goalRepo.findByTitle(goal.getTitle());
         if(goalOptional.isPresent())
-            throw new ResourceCreationException();
+            throw new ResourceCreationException("Goal already exists");
         User owner = userService.retrieveById(id);
         goal.setOwner(owner);
         return goalRepo.save(goal);
