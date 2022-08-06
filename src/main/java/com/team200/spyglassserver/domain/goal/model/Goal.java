@@ -9,7 +9,6 @@ import java.util.Date;
 
 
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
@@ -19,22 +18,15 @@ public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NonNull
     private String title;
     private String description;
-    @NonNull
     @Temporal(TemporalType.DATE)
     private Date goalStart;
-    @NonNull
     @Temporal(TemporalType.DATE)
     private Date targetDate;
-    @NonNull
     private Double targetAmount;
-    @NonNull
     private Double currentAmount;
-    @NonNull
     private CompletionStatus completionStatus;
-    @NonNull
     @ManyToOne
     @JsonBackReference
     private User owner;
@@ -42,12 +34,26 @@ public class Goal {
     @PrePersist
     protected void onCreate() {
         goalStart = new Date();
+        if(completionStatus == null)
+            completionStatus = CompletionStatus.NOT_STARTED;
+        currentAmount = 0.0;
     }
 
-    public Goal(@NonNull String title, String description, @NonNull Date targetDate, @NonNull Double targetAmount) {
+    public Goal(String title, String description, Date targetDate,Double targetAmount) {
         this.title = title;
         this.description = description;
         this.targetDate = targetDate;
         this.targetAmount = targetAmount;
+    }
+
+    public Goal(String title, String description, Date goalStart, Date targetDate, Double targetAmount, Double currentAmount, CompletionStatus completionStatus, User owner) {
+        this.title = title;
+        this.description = description;
+        this.goalStart = goalStart;
+        this.targetDate = targetDate;
+        this.targetAmount = targetAmount;
+        this.currentAmount = currentAmount;
+        this.completionStatus = completionStatus;
+        this.owner = owner;
     }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface GoalService {
 
-    Goal create(Goal goal) throws ResourceCreationException;
 
+    Goal create(String id, Goal goal) throws ResourceCreationException;
 
     Goal update(Long id, Goal goal) throws ResourceNotFoundException;
 

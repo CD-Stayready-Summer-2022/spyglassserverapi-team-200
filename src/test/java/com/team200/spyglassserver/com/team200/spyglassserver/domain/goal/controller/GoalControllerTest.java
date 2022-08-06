@@ -68,9 +68,9 @@ public class GoalControllerTest {
         mockUser = new User("test", "user", "daniel");
         mockUser.setId("test");
         mockDTO = new UserDTO(mockUser);
-        mockGoal = new Goal("test", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
+        mockGoal = new Goal("test", "this is a test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
         mockGoal.setId(1l);
-        testGoal1 = new Goal("tes01", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
+        testGoal1 = new Goal("test2", "this another test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
         mockGoalList = new ArrayList<>();
         mockGoalList.add(mockGoal);
         mockGoalList.add(testGoal1);
@@ -89,8 +89,8 @@ public class GoalControllerTest {
     @Test
     @DisplayName("Create test - Success")
     public void createTest01() throws Exception {
-        BDDMockito.doReturn(mockGoal).when(goalService).create(any());
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
+        BDDMockito.doReturn(mockGoal).when(goalService).create(any(),any());
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create/{id}", "test")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.asJsonString(mockGoal)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -102,14 +102,25 @@ public class GoalControllerTest {
     @DisplayName("Create test - Fail")
     public void createTest02() throws Exception {
         BDDMockito.doReturn(mockGoal).when(goalService).getById(any());
-        BDDMockito.doThrow(new ResourceCreationException()).when(goalService).create(any());
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
-                        .contentType(MediaType.APPLICATION_JSON))
+        BDDMockito.doThrow(new ResourceCreationException()).when(goalService).create(any(), any());
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create/{id}", "test")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonConverter.asJsonString(mockGoal)))
                 .andExpect(MockMvcResultMatchers.status().isConflict());
 
     }
 
+    @Test
+    @DisplayName("Get All /{id}/goals - success")
+    public void getAllTest() throws Exception {
+        BDDMockito.doReturn(mockGoalList).when(goalService).getAll("test");
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/{id}", "test")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+    }
 
+    @Test
     @DisplayName("GET byStatus /getByStatus - success")
     public void getByStatusTest01() throws Exception {
         StatusDTO statusDTO = new StatusDTO("test", "Complete");

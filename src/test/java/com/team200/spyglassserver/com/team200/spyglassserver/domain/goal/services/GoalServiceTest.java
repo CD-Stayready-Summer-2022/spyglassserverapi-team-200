@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,11 +34,6 @@ import java.util.Optional;
 public class GoalServiceTest {
     @MockBean
     private GoalRepo goalRepo;
-
-
-    @MockBean
-    private UserRepo userRepo;
-
     @Autowired
     private GoalService goalService;
     @MockBean
@@ -56,18 +52,18 @@ public class GoalServiceTest {
     public void setUp() {
         mockUser = new User("test", "user", "daniel");
         mockUser.setId("test");
+
         mockUser2 = new User();
         mockUser2.setId("Test2");
-        mockGoal = new Goal("test", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
-
+        mockGoal = new Goal("test", "this is a test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
         mockGoal.setId(1l);
-        testGoal1 = new Goal("tes01", new Date(), new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
+
+        testGoal1 = new Goal("test2", "this another test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
+        testGoal1.setId(2l);
+
         mockGoalList = new ArrayList<>();
         mockGoalList.add(mockGoal);
         mockGoalList.add(testGoal1);
-        
-        mockGoal = new Goal("test",new Date(),new Date(),0.0,0.0, CompletionStatus.COMPLETE,new User());
-        mockGoal.setId(1l);
 
         owner = new User();
         owner.setId("ownerID");
@@ -78,7 +74,7 @@ public class GoalServiceTest {
     @DisplayName("Create Test - Success")
     public void create01() {
         BDDMockito.doReturn(mockGoal).when(goalRepo).save(mockGoal);
-        Goal createdGoal = goalService.create(mockGoal);
+        Goal createdGoal = goalService.create("test", mockGoal);
         Assertions.assertEquals(createdGoal.getId(), mockGoal.getId());
     }
 
@@ -89,7 +85,7 @@ public class GoalServiceTest {
         BDDMockito.doReturn(Optional.of(mockGoal)).when(goalRepo).findByTitle("test");
 
         Assertions.assertThrows(ResourceCreationException.class, () -> {
-            Goal newGoal = goalService.create(mockGoal);
+            Goal newGoal = goalService.create("test",mockGoal);
         });
 
     }
@@ -97,14 +93,11 @@ public class GoalServiceTest {
     @Test
     @DisplayName("Get All test - success")
     public void getAllTest01() {
-        BDDMockito.doReturn(mockGoalList).when(goalRepo).findByOwner(mockUser);
-        BDDMockito.doReturn(Optional.of(mockUser) ).when(userRepo).findById("test");
+        BDDMockito.doReturn(mockUser).when(userService).retrieveById("test");
+        BDDMockito.doReturn(Optional.of(mockGoalList)).when(goalRepo).findByOwner(mockUser);
         List<Goal> goals = goalService.getAll(mockUser.getId());
         Assertions.assertEquals(goals, mockGoalList);
     }
-
-
-
 
     @Test
     @DisplayName("Get By Status Test - success ")
@@ -137,7 +130,7 @@ public class GoalServiceTest {
     @Test
     @DisplayName("Update -Success")
     public void updateGoalTestSuccess()throws ResourceNotFoundException{
-        Goal expectedGoalUpdate = new Goal("test21",new Date(),new Date(),0.0,0.0, CompletionStatus.COMPLETE,new User());
+        Goal expectedGoalUpdate = new Goal("tes01", "this is a test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
         expectedGoalUpdate.setId(1L);
         BDDMockito.doReturn(Optional.of(mockGoal)).when(goalRepo).findById(1L);
         BDDMockito.doReturn(expectedGoalUpdate).when(goalRepo).save(ArgumentMatchers.any());
@@ -148,7 +141,7 @@ public class GoalServiceTest {
     @Test
     @DisplayName("Update-Fail")
     public void updateGoalTestFail(){
-        Goal expectedGoalUpdate = new Goal("test21",new Date(),new Date(),0.0,0.0, CompletionStatus.COMPLETE,new User());
+        Goal expectedGoalUpdate = new Goal("tes01", "this is a test", new Date(),  new Date(), 0.0, 0.0, CompletionStatus.COMPLETE, mockUser);
         expectedGoalUpdate.setId(1L);
         BDDMockito.doReturn(Optional.empty()).when(goalRepo).findById(1L);
         Assertions.assertThrows(ResourceNotFoundException.class,()->{
