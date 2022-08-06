@@ -2,6 +2,7 @@ package com.team200.spyglassserver.domain.goal.controller;
 
 
 import com.team200.spyglassserver.domain.core.exceptions.ResourceCreationException;
+import com.team200.spyglassserver.domain.core.exceptions.ResourceNotFoundException;
 import com.team200.spyglassserver.domain.goal.model.Goal;
 import com.team200.spyglassserver.domain.goal.services.GoalService;
 
@@ -36,6 +37,13 @@ public class GoalController {
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Goal> getGoalById(@PathVariable Long id) {
+        Goal goal = goalService.getById(id);
+        return new ResponseEntity<>(goal, HttpStatus.OK);
+
+    }
+
     @GetMapping("{id}/goals")
     public ResponseEntity<List<Goal>> getAll(@RequestParam String id) {
         List<Goal> goals = goalService.getAll(id);
@@ -49,6 +57,26 @@ public class GoalController {
         return new ResponseEntity<>(goals, HttpStatus.OK);
 
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        goalService.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Goal> updateGoal(@PathVariable long id, @RequestBody Goal goal) {
+        try {
+            Goal updatedGoal = goalService.update(id, goal);
+            ResponseEntity response = new ResponseEntity(updatedGoal, HttpStatus.OK);
+            return response;
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
+    }
+
 }
 
 

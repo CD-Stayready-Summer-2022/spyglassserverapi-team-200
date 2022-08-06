@@ -35,7 +35,7 @@ public class GoalServiceImpl implements GoalService {
     public Goal create(Goal goal) throws ResourceCreationException {
         Optional<Goal> goalOptional  = goalRepo.findByTitle(goal.getTitle());
         if(goalOptional.isPresent()) {
-            throw new ResourceCreationException();
+            throw new ResourceCreationException("");
         }
         return goalRepo.save(goal);
     }

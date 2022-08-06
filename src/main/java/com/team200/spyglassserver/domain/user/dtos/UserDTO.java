@@ -12,6 +12,6 @@ public class UserDTO {
     public UserDTO(User user){
         id = user.getId();
         fullName = String.format("%s %s", user.getFirstName(), user.getLastName());
-        numberOfGoals = user.getGoals().size();
+        //numberOfGoals = user.getGoals().size();
     }
 }

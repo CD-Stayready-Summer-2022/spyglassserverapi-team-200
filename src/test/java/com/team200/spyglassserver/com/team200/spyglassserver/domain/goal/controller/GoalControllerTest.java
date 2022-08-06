@@ -37,6 +37,8 @@ import java.util.List;
 
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -88,7 +90,7 @@ public class GoalControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonConverter.asJsonString(mockGoal)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)));
     }
@@ -97,10 +99,10 @@ public class GoalControllerTest {
     @DisplayName("Create test - Fail")
     public void createTest02() throws Exception {
         BDDMockito.doReturn(mockGoal).when(goalService).getById(any());
-        BDDMockito.doThrow(new ResourceCreationException()).when(goalService).create(any());
+        BDDMockito.doThrow(new ResourceCreationException("")).when(goalService).create(any());
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/goals/create")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isConflict());
+                .andExpect(status().isConflict());
 
     }
 
@@ -112,7 +114,7 @@ public class GoalControllerTest {
         BDDMockito.doReturn(expectedGoals).when(goalService).getAllByStatus(any(), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test", "Complete")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -122,7 +124,7 @@ public class GoalControllerTest {
         BDDMockito.doThrow(new ResourceNotFoundException("User has no goals")).when(goalService).getAllByStatus(any(), any());
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/getByStatus/{id}/{status}", "test", "Complete")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -136,7 +138,7 @@ public class GoalControllerTest {
                         .param("id", "test")
                         .param("start", "0")
                         .param("end", "5"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
 
@@ -149,7 +151,40 @@ public class GoalControllerTest {
                         .param("id", "test")
                         .param("start", "0")
                         .param("end", "5"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(status().isNotFound());
 
     }
+    @Test
+    @DisplayName("GET By Id - success")
+    public void getByIdTestSucess() throws Exception {
+        BDDMockito.doReturn(mockGoal).when(goalService).getById(any());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/{id}",1l))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Is.is(1)));
+
+    }
+    @Test
+    @DisplayName("Get by Id - fail")
+    public void getByIdTestFail()throws Exception{
+        BDDMockito.doThrow(new ResourceNotFoundException("not found")).when(goalService).getById(1l);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/goals/{id}",1))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    @DisplayName("Delete Test sucess")
+    public void goalDeleteTestSuccess() throws Exception {
+        BDDMockito.doReturn(true).when(goalService).delete(1l);
+        mockMvc.perform(delete("/goals/{id}",1l))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    @DisplayName("Delete Test fail")
+    public void goalDeleteTestFail()throws Exception{
+        BDDMockito.doThrow(new ResourceNotFoundException("not found")).when(goalService).delete(any());
+        mockMvc.perform(delete("/goals/{id}", 1l))
+                .andExpect(status().isNotFound());
+    }
+
+
 }
