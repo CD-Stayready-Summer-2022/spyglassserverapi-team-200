@@ -98,14 +98,6 @@ public class GoalServiceTest {
         List<Goal> goals = goalService.getAll(mockUser.getId());
         Assertions.assertEquals(goals, mockGoalList);
     }
-
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 32e640ed83c6e231e686c7b9bf31c53bb9126a4c
     @Test
     @DisplayName("Get By Status Test - success ")
     public void getByStatusTest01() {

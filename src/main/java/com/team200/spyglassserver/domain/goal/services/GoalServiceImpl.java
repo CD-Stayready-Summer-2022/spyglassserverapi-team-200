@@ -32,11 +32,12 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public Goal create(Goal goal) throws ResourceCreationException {
+    public Goal create(String id, Goal goal) throws ResourceCreationException {
         Optional<Goal> goalOptional  = goalRepo.findByTitle(goal.getTitle());
-        if(goalOptional.isPresent()) {
-            throw new ResourceCreationException("");
-        }
+        if(goalOptional.isPresent())
+            throw new ResourceCreationException("Goal already Exists");
+        User owner = userService.retrieveById(id);
+        goal.setOwner(owner);
         return goalRepo.save(goal);
     }
 
@@ -70,7 +71,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public List<Goal> getAll(String id)  {
+    public List<Goal> getAll(String id)  throws ResourceNotFoundException {
         User user = userService.retrieveById(id);
         Optional<List<Goal>> goals = goalRepo.findByOwner(user);
         return goals.get();
@@ -113,22 +114,5 @@ public class GoalServiceImpl implements GoalService {
      Goal goalToDelete = goalOptional.get();
      goalRepo.delete(goalToDelete);
      return true;
-
-    }
-    
-    @Override
-    public CompletionStatus getStatusEnum(String status){
-        CompletionStatus returnStatus = null;
-        switch (status){
-            case "Not Started":
-                returnStatus =  CompletionStatus.NOT_STARTED;
-                break;
-            case "In Progress":
-                returnStatus = CompletionStatus.IN_PROGRESS;
-                break;
-            case "Complete":
-                returnStatus = CompletionStatus.COMPLETE;
-        }
-        return returnStatus;
     }
 }
