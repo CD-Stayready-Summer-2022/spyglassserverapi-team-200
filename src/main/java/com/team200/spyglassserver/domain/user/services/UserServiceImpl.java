@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO create(UserCreateRequest detailDTO) throws ResourceNotFoundException {
         Optional<User> optional = UserRepo.findByEmail(detailDTO.getEmail());
         if (optional.isPresent()) {
-            throw new ResourceCreationException();
+            throw new ResourceCreationException("");
         }
         log.info(detailDTO.toString());
         String uid = FirebaseUserMgrService.createFireBaseUser(detailDTO);
