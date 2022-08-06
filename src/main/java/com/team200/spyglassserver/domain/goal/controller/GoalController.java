@@ -32,14 +32,14 @@ public class GoalController {
     }
 
 
-    @PostMapping("create")
-    public ResponseEntity<Goal> create(@RequestBody Goal goal) throws ResourceCreationException {
-        Goal createdGoal = goalService.create(goal);
+    @PostMapping("create/{id}")
+    public ResponseEntity<Goal> create(@PathVariable String id,  @RequestBody Goal goal) throws ResourceCreationException {
+        Goal createdGoal = goalService.create(id, goal);
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}/goals")
-    public ResponseEntity<List<Goal>> getAll(@RequestParam String id) {
+    @GetMapping("{id}")
+    public ResponseEntity<List<Goal>> getAll(@PathVariable(name = "id") String id) {
         List<Goal> goals = goalService.getAll(id);
         return new ResponseEntity<>(goals, HttpStatus.OK);
     }
