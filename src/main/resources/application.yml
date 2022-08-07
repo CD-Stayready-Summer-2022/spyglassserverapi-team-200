@@ -49,7 +49,7 @@ security:
     - /favicon.ico
     - /session/login
     - /info/**
-    - /**/userprofile/create
+    - /**/user/create
   exposed-headers:
     - X-Xsrf-Token
 

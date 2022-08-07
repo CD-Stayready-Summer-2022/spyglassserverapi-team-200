@@ -5,6 +5,7 @@ import com.team200.spyglassserver.domain.user.model.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Date;
 
 
@@ -18,6 +19,7 @@ public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String picture;
     private String title;
     private String description;
     @Temporal(TemporalType.DATE)
@@ -36,7 +38,16 @@ public class Goal {
         goalStart = new Date();
         if(completionStatus == null)
             completionStatus = CompletionStatus.NOT_STARTED;
-        currentAmount = 0.0;
+        if(currentAmount == null)
+            currentAmount = 0.0;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        if(currentAmount != 0 && !currentAmount.equals(targetAmount))
+            completionStatus = CompletionStatus.IN_PROGRESS;
+        else
+            completionStatus = CompletionStatus.COMPLETE;
     }
 
     public Goal(String title, String description, Date targetDate,Double targetAmount) {
@@ -47,6 +58,18 @@ public class Goal {
     }
 
     public Goal(String title, String description, Date goalStart, Date targetDate, Double targetAmount, Double currentAmount, CompletionStatus completionStatus, User owner) {
+        this.title = title;
+        this.description = description;
+        this.goalStart = goalStart;
+        this.targetDate = targetDate;
+        this.targetAmount = targetAmount;
+        this.currentAmount = currentAmount;
+        this.completionStatus = completionStatus;
+        this.owner = owner;
+    }
+
+    public Goal(String picture, String title, String description, Date goalStart, Date targetDate, Double targetAmount, Double currentAmount, CompletionStatus completionStatus, User owner) {
+        this.picture = picture;
         this.title = title;
         this.description = description;
         this.goalStart = goalStart;

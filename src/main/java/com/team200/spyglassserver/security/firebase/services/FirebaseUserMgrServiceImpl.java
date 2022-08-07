@@ -27,7 +27,7 @@ public class FirebaseUserMgrServiceImpl implements FirebaseUserMgrService{
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
             return userRecord.getUid();
         } catch (FirebaseAuthException e){
-            throw new ResourceCreationException("");
+            throw new ResourceCreationException(e.getMessage());
         }
     }
 
