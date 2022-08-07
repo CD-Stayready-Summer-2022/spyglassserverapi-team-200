@@ -12,6 +12,7 @@ CREATE TABLE  IF NOT EXISTS`users`(
 
 CREATE TABLE  IF NOT EXISTS `goal`(
 	`id` Integer Primary Key auto_increment,
+	`picture` varchar(100),
     `title` varchar(255),
     `description` varchar(255),
     `goal_start` DATE,

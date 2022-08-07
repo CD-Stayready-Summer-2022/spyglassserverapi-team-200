@@ -54,7 +54,7 @@ public class GoalServiceImpl implements GoalService {
         goal.setCurrentAmount(detaill.getCurrentAmount());
         goal.setTargetDate(detaill.getTargetDate());
         goal.setTargetAmount(detaill.getTargetAmount());
-        return goal;
+        return goalRepo.save(goal);
 
 
     }
